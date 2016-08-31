@@ -1,0 +1,27 @@
+---
+uwsgi:
+  plugin: python,gevent,logfile
+  single-interpreter: true
+  processes: 4
+  enable-threads: True
+  gevent: 100
+  max-fd: 100000
+  harakiri: 20
+  gevent-monkey-patch: true
+  # logger: unirestful file:/var/log/dcos/uwsgi.log
+  mount: /lbpolicy/api/v1=magent.py
+  pythonpath: /marathon-lb
+  callable: app
+  chdir: /marathon-lb
+  socket: :6060
+  protocol: http
+  manage-script-name: true
+  master: true
+  # cron2: harakiri=40 unique=1 python monitor_marathon.py
+  # cron2: harakiri=40 unique=1 python monitor_mesos.py
+  # cron2: harakiri=40 unique=1 python thread-server.py
+  # cron2: harakiri=40 unique=1 python haproxy-server.py
+  # cron2: harakiri=40 unique=1 ./tasks.sh
+  # timer: 5 echo "timer says hi!"
+# mount = /app3=app3.py
+# generally flask apps expose the 'app' callable instead of 'application'
